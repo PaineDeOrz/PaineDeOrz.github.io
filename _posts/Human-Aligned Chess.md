@@ -18,6 +18,7 @@ History
 - Early hardware-based issues & developments, brute force computing
 - Modern algorithmic approaches
 - Stockfish (heuristic-based) vs AlphaZero/Leela (NN-based)
+- (?)Detailed comparison in the workings of engines (with study)
 - Examples of limitations and powers of modern-day engines, again motivation to human-alignment
 
 MAIA
