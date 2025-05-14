@@ -1,7 +1,9 @@
 ---
 title: 'Human-Aligned Chess'
-date: 2025-05-14
-permalink: /posts/Human-Aligned Chess/
+date: 2025-05-15
+permalink: /posts/2025/05/15/Human-Aligned Chess/
+tags:
+	- draft
 ---
 
 Introduction
