@@ -12,7 +12,7 @@ Introduction
 
 In the last few years, chess has absolutely boomed. It feels like it's everywhere right now, whether in the train, in the parc, even in the lecture hall, there are people playing chess on their phones. The number of tournaments, movies, TV shows, learning material etc. has increased exponentially since the pandemic, even though this game has existed for centuries. There are over 10 million people logging in every day and playing an online game. This means an enormous amount of games, being played by all types of people (be they professionals, players who don't even know the rules, 5 year-olds, 95 year-olds and everything in between) are recorded and stored in databases, along with all sorts of metadata (players' ELO ratings, nationality, time format etc.). To put it in short: a simple, deterministic, fully observable game with an insane amount of well organized data. For any AI enthusiast, this is Heaven!
 
-! [A chess database](images/database.png)
+![A chess database] (images/database.png)
 
 Of course, the fact that chess is a great environment to develop AI tools has been known ever since computers were created. Alan Turing himself created an algorithm even before computers were advanced enough to run it. The 70's and 80's saw the creation of computers built specifically for chess (also called engines), despite massive costs, culminating with IBM's DeepBLue, a multi-million dollars project that ultimately defeated world champion at the time (1997) and arguably greatest chess player of all time, Garry Kasparov. After this legendary moment, investing in chess engines increased exponentially, and today we have computers that can easily defeat the best players even without a whole lot of processing power.
 
