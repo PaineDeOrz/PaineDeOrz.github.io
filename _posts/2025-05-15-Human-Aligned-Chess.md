@@ -16,6 +16,8 @@ In the last few years, chess has absolutely boomed. It feels like it's everywher
 
 Of course, the fact that chess is a great environment to develop AI tools has been known ever since computers were created. Alan Turing himself created an algorithm even before computers were advanced enough to run it. The 70's and 80's saw the creation of computers built specifically for chess (also called engines), despite massive costs, culminating with IBM's DeepBLue, a multi-million dollars project that ultimately defeated world champion at the time (1997) and arguably greatest chess player of all time, Garry Kasparov. After this legendary moment, investing in chess engines increased exponentially, and today we have computers that can easily defeat the best players even without a whole lot of processing power.
 
+![Kasparov vs. DeepBlue 1997](images/Kasparov.png)
+
 However, the world of chess isn't without its problems. Cheating, in particular, is probably the greatest one. Another one is the very inefficient learning process of booting up an engine, seeing a ridiculous move being recommended, not even beginning to understand it and just giving up and moving on to the next game. Just imagine a personalized chess trainer that would be able to recommend moves based on one's skill level and style of play.
 
 Both of these, as well as many other possibilities in the world of chess, start, unfortunately, with an ambiguous concept: "human", or "natural" moves. What makes a move "natural", so that our trainer could recommend it? What makes a move "unnatural", so that we can detect it as a form of cheating? These are the kind of questions we are going to take the first step into answering in this blogpost, by seeing how to create a "human-aligned engine" that can predict not the best move in a position, but the most "human" one.
@@ -24,16 +26,28 @@ Both of these, as well as many other possibilities in the world of chess, start,
 Modern Chess Engines
 ===========
 
-In order to understand how to create a "human-aligned engine", first we need to dive into the workings of a "normal" engine. Ever since the launch of Alpha-Zero, an engine developed by Google in 2017 with a revolutionary neural network-based approach, the trend has been the same: A really complex, feed-forward neural network with lots of layers, training on self play (playing millions or even billions of games against itself) to create an evaluation function, based on which an iterative deepening Monte-Carlo Tree Search (in short MCTS) is run. The more time and processing power available, the better the tree search could be, though limited by the neural network (which however complex cannot be perfect). This limitation of using machine learning algorithms (based on lots of data rather than ground truths) instead of more simple AI ones (such as basic alpha-beta pruning with lots of handcrafted heuristics, which Stockfish was), may seem unintuitive and is not even always better. A famous example for it is Lasker's puzzle, a study that puts white in a completely winning position, with forced checkmate in #(put how many moves) moves, which LeeLa, a continuation of the Alpha-Zero concept, doesn't find. The seemingly more basic Stockfish, however, does find it, albeit after a very long time in the world of computers. Today, though, even Stockfish has moved towards the neural network approach, which we are also going to use for our "human-aligned" engines, albeit for more obvious reasons.
+In order to understand how to create a "human-aligned engine", first we need to dive into the workings of a "normal" engine. Ever since the launch of Alpha-Zero, an engine developed by Google in 2017 with a revolutionary neural network-based approach, the trend has been the same: A really complex, feed-forward neural network with lots of layers, training on self play (playing millions or even billions of games against itself) to create an evaluation function, based on which an iterative deepening Monte-Carlo Tree Search (in short MCTS) is run. The more time and processing power available, the better the tree search could be, though limited by the neural network (which however complex cannot be perfect). 
+
+![How AlphaZero works](alphazero.png)
+
+This limitation of using machine learning algorithms (based on lots of data rather than ground truths) instead of more simple AI ones (such as basic alpha-beta pruning with lots of handcrafted heuristics, which Stockfish was), may seem unintuitive and is not even always better. A famous example for it is Lasker's puzzle, a study that puts white in a completely winning position, with forced checkmate in #(put how many moves) moves, which LeeLa, a continuation of the Alpha-Zero concept, doesn't find. The seemingly more basic Stockfish, however, does find it, albeit after a very long time in the world of computers. 
+
+![Plaskett's Puzzle](plaskett.png)
+
+Today, though, even Stockfish has moved towards the neural network approach, which we are also going to use for our "human-aligned" engines, albeit for more obvious reasons.
 
 Human-Aligned Engines - a First Attempt
 ==========
 
 The first question one might have when talking about designing a human-level engine is as follows: If we already have Stockfish or Leela which are much better than human, why can't we simply cut a lot of their processing power, or limit the depth of their search tree, until they are just as weak as us? Well, here is where the concept of "human" moves comes into play. Humans, whether they are complete beginners, amateurs or advanced players, don't just play random bad moves. They play certain bad moves. There is always some thought process going into a move, sometimes erroneous for hidden reasons, such as missing an insane tactic 10 moves into a variation, sometimes for obvious reasons, such as blundering a queen in one move. Some moves are extremely intuitive, what we call "natural", even though an engine may deem it a blunder. 
 
+![Non-human move](magnus.png)
+
 In order to understand a little bit more clearly what an "unnatural" move is, let's take an example. In the following position, the best player in the world, Magnus Carlsen, has a rook and a knight for the opponent's queen, which is already disadvantageous. Stockfish thinks that the only way to draw the game (which is the best result Magnus can hope for here), is to sacrifice a knight, though not for immediate tactical purposes (even Stockfish doesn't find a forced sequence leading to the draw). Despite having more than 20 minutes to think, Magnus doesn't find the move, and the commentators don't even blame him, because that engine recommendation is simply "unnatural".
 
 Just toning down existing engines doesn't emulate human play, it just leads to random bad moves, so we have to come up with smarter methods.
+
+![Toned-Down engines don't work](badengines.png)
 
 MAIA
 ==========
