@@ -6,53 +6,13 @@ tags:
 - draft
 ---
 
-Introduction
-===========
-
-- Current status of the game (popularity, trends, problems and hopes)
-- Motivation of chess as AI/ML application
-- Motivation for human-alignment in the world of chess computers
-
-History
-==========
-
-- Early hardware-based issues & developments, brute force computing
-- Modern algorithmic approaches
-- Stockfish (heuristic-based) vs AlphaZero/Leela (NN-based)
-- (?)Detailed comparison in the workings of engines (with study)
-- Examples of limitations and powers of modern-day engines, again motivation to human-alignment
-
-MAIA
-==========
-
-- Data, move prediction task
-- Implementation of the NN
-- Motivation of no MCTS
-- Results (Turing test?)
-- Blunder prediction and possible uses
-
-ALLIE
-==========
-
-- Data again (now with metadata)
-- Deep-dive in decoder-only transformer model
-- Design of LLM for chess & why natural language - weights work
-- Motivation for MCTS
-- Results (both offline evaluation & human qualitative feedback)
-- Personal opinion (?)
-
-Looking at the future
-==========
-
-- Issues in present and upcoming models, tough problems regarding data
-- What computers can do, should become able to do, and what they can't be used for
-- How research in chess can translate into other applications
-
 
 Introduction
 ==========
 
 In the last few years, chess has absolutely boomed. It feels like it's everywhere right now, whether in the train, in the parc, even in the lecture hall, there are people playing chess on their phones. The number of tournaments, movies, TV shows, learning material etc. has increased exponentially since the pandemic, even though this game has existed for centuries. There are over 10 million people logging in every day and playing an online game. This means an enormous amount of games, being played by all types of people (be they professionals, players who don't even know the rules, 5 year-olds, 95 year-olds and everything in between) are recorded and stored in databases, along with all sorts of metadata (players' ELO ratings, nationality, time format etc.). To put it in short: a simple, deterministic, fully observable game with an insane amount of well organized data. For any AI enthusiast, this is Heaven!
+
+![A chess database](.\images\database.png)
 
 Of course, the fact that chess is a great environment to develop AI tools has been known ever since computers were created. Alan Turing himself created an algorithm even before computers were advanced enough to run it. The 70's and 80's saw the creation of computers built specifically for chess (also called engines), despite massive costs, culminating with IBM's DeepBLue, a multi-million dollars project that ultimately defeated world champion at the time (1997) and arguably greatest chess player of all time, Garry Kasparov. After this legendary moment, investing in chess engines increased exponentially, and today we have computers that can easily defeat the best players even without a whole lot of processing power.
 
@@ -83,12 +43,26 @@ The rather unintuitive change that MAIA brings, however, is a lack of the MCTS f
 
 Apart from this peculiarity, there is not much else to say about MAIA's implementation. Much more interesting, however, are the results. We can see an accuracy a little over 50%, which intuitively sounds quite poor, but let's analyze what this accuracy actually means. Normally in chess, when we talk about accuracy, we compare human play against the engine. Thus, 100% accuracy means playing all the best moves recommended by the computer, and any other moves at any point decrease that accuracy, some by a lot (blunders), other by a little (sight mistakes or just alternatives to the best moves). In our case here, it is a little bit differently. Because we don't actually measure how "human" each move is, we cannot objectively measure whether a predicted move is good for us or not. Instead, all we have is already played games, and we either predict the move played in the game used for testing, or we don't. This means that a rather low accuracy score is very much normal, because in a position there can be multiple different "human" moves, but only one is tested. As such, using only the accuracy metric is clearly not enough for evaluating our engine.
 
-Instead, by far the best analysis of a human-aligned engine is, of course, a Turing test. After all, if humans playing against the engine cannot tell that their opponent is not human, our goal is accomplished. That is, after all, as human as it gets. For the Turing test we go to a different paper, and the results are really quite astounding. Humans were paired against other humans, MAIA, and a toned-down version of Stockfish, then asked to rate their confidence in whether their opponent was human or not. While Stockfish was clearly recognized, MAIA is hardly so. The difference between playing a human opponent and MAIA is very small, which shows that the accuracy metric should be taken with a grain of salt. Of course, the higher the better, that is why we'll be taking a look at an even better engine next, but these results are already very good.
+Instead, by far the best analysis of a human-aligned engine is, of course, a Turing test. After all, if humans playing against the engine cannot tell that their opponent is not human, our goal is accomplished. That is, all in all, as human as it gets. For the Turing test we go to a different paper, and the results are really quite astounding. Humans were paired against other humans, MAIA, and a toned-down version of Stockfish, then asked to rate their confidence in whether their opponent was human or not. While Stockfish was clearly recognized, MAIA is hardly so. The difference between playing a human opponent and MAIA is very small, which shows that the accuracy metric should be taken with a grain of salt. Of course, the higher the better, that is why we'll be taking a look at an even better engine next, but these results are already very good.
 
 ALLIE
 ==========
+The authors of ALLIE change their approach in accomplishing the same task and they come up with a model that is quite a lot more complex. Firstly, its structure is inherently different. It takes as input a whole game played until a certain position (including the game's time control and the time used for each move) instead of just a position. As output, it outputs a move and a value head, just like MAIA, but also predicts a pondering time, that is, how long the engine is going to "think" on the next move. This pondering time doesn't just make the engine more realistic, but serves as the basis of balancing the Monte-Carlo Tree Search. This is the second main difference to MAIA. The authors of MAIA found that MCTS led to worse results, in particular for amateur-level games. The mention that they only tried the Alpha-Zero inspired iterative-deepening MCTS plays a crucial role here. What ALLIE does is quite different, in that the MCTS is restricted not in depth, but in time. The MCTS runs for only as long as the predicted pondering time allows, albeit as deep as it wants to. In a way, this is also a more intuitive approach. When we think of how human analyze a position, what was calculated on the previous moves matters a lot (humans think in sequences of moves, not analyzing a position the same way every single move), and when humans calculate future sequences, they go very deep (up to 15-20 moves) in forcing variations (attacks on the enemy king, forced checkmates or lots of trades), but often disregard other moves even after just seeing the immediate response of the opponent. As such, an uneven search tree is normal for a human brain. 
+
+Because we are using the whole metadata of a games instead of just a given position, we can now change the way we use the neural network as well. Instead of a very complex feed-forward neural network, the authors of ALLIE used a GPT 2.5 - style recurrent neural network. The point is that we can think of a game of chess as a sentence. We make the next move depending on the moves we have played before (based on calculations that we have made before), just like modern LLMs predict the next word in a sentence based on all the words written before. The same applies to the pondering time. If in a rapid game, we spent 5 minutes thinking on a move, we are not going to spend another 5 minutes on the next one. All this is helped massively by the way in which chess games are stored, that is PGNs. These are very nicely formatted text files that are automatically readable through the use of already-existing libraries, so splitting the input games into each of the moves and the time spent on each one is a simple automated process. Otherwise, one can imagine how impossibly tedious it would be.
+
+But if MAIA already had great results in the Turing test, how much better can ALLIE really be, given that is uses truly state-of-the-art methods in AI and ML. Well, the accuracy score, while not particularly relevant in absolute terms, is still a great comparison between the two engines. After all, the higher the accuracy, the better. Remember that the difference between a tone-down version of Stockfish and MAIA, although massive in the Turing test, was about 10-15% in accuracy score. What about ALLIE?
 
 
+Well, at the amateur levels (where the authors of MAIA particularly focused), the difference is not significant (under 5%). However, As we go up in rating, and especially as we hit the 2000 rating mark (which is about where more advanced-level games begin), a massive improvement can be seen. This is the power of the MCTS. Getting up to even 60% accuracy at the 2600 rating, there is a bigger difference between ALLIE and MAIA than between MAIA and the bad version of Stockfish in some rating ranges.
 
+These results can also be seen on the Turing test, though here the difference cannot be particularly large. Such few people were able to distinguish between ALLIE and a human opponent, that we lie withing the psychological boundaries (some people will intentionally say the played against an engine simply because they expect it, not because they can really identify engine-like moves). For this reason, we also turn to some qualitative feedback from the participants in the Turing test. To start with the positives, the time management was a great psychological factor, it feeling human to play against someone that spends little time on forcing moves and more time in more complex positions. What is more, the engine does make mistakes (that is also our goal), but they aren't random bad moves, they feel human, which is very much what is wanted from the engine. The most common negative feedback is on its endgame play. This is a very interesting one. From a machine learning perspective, one can think that there is a lot less data on endgames than on openings, and also that endgames are so different from one another that it is very difficult for the model to generalize well. From a chess player's perspective, however, I can also understand it. As humans, we learn endgames separately, as though they are their own games and not continuations of a long game. We learn techniques, abstract concepts and positions that we need to reach in order to force a win or a draw, concepts which a machine learning model doesn't have as input. Also the training data is extremely faulty, particularly in endgames. Since we are only using rapid and blitz games, most games that reach the endgame are probably won on time. Many times it is about the internet speed and mouse skills rather than pure endgame technique. So one can understand why the model performs worse in endgames.
+
+Issues with the models
+=====================
+
+This last issue discussed on ALLIE reveals a greater problem not just behind the two models I have presented today, but on any model any person may ty to create: the data. When using online games, one has to realize that their great advantage (the huge number of games) is also their problem. These games are not particularly serious, at least not always. The same human will play very differently when actually focusing that when drunk at 4 a.m. But there is hardly a way of finding just serious games. One solution would be to only use tournament games, but there aren't a whole lot of online tournaments, especially at lower rating levels. And as we have seen, we do need a lot of games (tens of millions).
+
+ 
 
 
