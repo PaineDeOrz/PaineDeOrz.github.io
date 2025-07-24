@@ -1,5 +1,3 @@
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
 Blog Post for Human-Aligned Chess
 
 By Andrei Todiraș
@@ -21,10 +19,8 @@ nationality, time format etc.). To put it in short: a simple,
 deterministic, fully observable game with an insane amount of well
 organized data. For any AI enthusiast, this is Heaven!
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image1.png){width="5.133333333333334in"
+![A chess database. Source:](images/media/image1.png){width="5.133333333333334in"
 height="4.1055544619422575in"}
-
-(A chess database. Source:
 
 1 Andrei Todiraș 31.07.2025
 
