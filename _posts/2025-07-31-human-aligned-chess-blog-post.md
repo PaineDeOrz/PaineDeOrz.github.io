@@ -31,7 +31,7 @@ nationality, time format etc.). To put it in short: a simple,
 deterministic, fully observable game with an insane amount of well
 organized data. For any AI enthusiast, this is Heaven!
 
-![](images/media/image1.png)
+![](/images/media/image1.png)
 
 (A chess database. Source: https://www.pathtochessmastery.com/2015/01/chess-computing-resources-for-2015-part_10.html)
 
