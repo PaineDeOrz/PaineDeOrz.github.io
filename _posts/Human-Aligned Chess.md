@@ -1,3 +1,13 @@
+---
+title: 'Human-Aligned Chess Blog Post'
+date: 2025-07-31
+permalink: /posts/05/Human-Aligned Chess/
+tags:
+  - cool posts
+  - category1
+  - category2
+---
+
 Blog Post for Human-Aligned Chess
 
 By Andrei Todiraș
