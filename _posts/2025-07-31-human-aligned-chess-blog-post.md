@@ -47,7 +47,7 @@ moment, investing in chess engines increased exponentially, and today we
 have computers that can easily defeat the best players even without a
 whole lot of processing power.
 
-![](images/media/image2.png)
+![](/images/media/image2.png)
 
 (Kasparov vs. DeepBlue 1997. Source: https://ar.inspiredpencil.com/pictures-2023/garry-kasparov-vs-deep-blue)
 
@@ -75,7 +75,7 @@ going to take the first step into answering in this blogpost, by seeing
 how to create a \"human-aligned engine\" that can predict not the best
 move in a position, but the most \"human\" one.
 
-![](images/media/image3.png)
+![](/images/media/image3.png)
 
 (Example of "unnatural" move. Black to move, best move: a5, despite
 incoming attack on the king. Source: https://www.youtube.com/watch?v=NdV3_SwrNjs)
@@ -112,7 +112,7 @@ course, the fantastic results of AlphaZero lie behind the complexity of
 the neural network, crafted by ML experts at Google with the help of
 chess experts, but still, this method was very surprising at first.
 
-![](images/media/image4.png)
+![](/images/media/image4.png)
 
 (Basic Structure of AlphaZero. Source: https://medium.com/applied-data-science/alphago-zero-explained-in-one-diagram-365f5abf67e0)
 
@@ -128,7 +128,7 @@ best players in the world at a tournament in Brussels in 1987. Kasparov
 and Karpov were among the ones who couldn't find the solution, only
 Mikhail Tal did.
 
-![](images/media/image5.png)
+![](/images/media/image5.png)
 
 (Plaskett's puzzle. Leela evaluation: black is better. Stockfish depth
 30 (after 1 min 17s) says black is better. Stockfish depth 40 (18:06):
@@ -158,7 +158,7 @@ such as blundering a queen in one move. Some moves are extremely
 intuitive, what we call \"natural\", even though an engine may deem it a
 blunder.
 
-![](images/media/image6.png)
+![](/images/media/image6.png)
 
 In order to understand a little bit more clearly what an \"unnatural\"
 move is, let\'s take an example. In the position above, the best player
@@ -176,7 +176,7 @@ Just toning down existing engines doesn\'t emulate human play, it just
 leads to either random bad moves or accidental best moves, so we have to
 come up with smarter methods.
 
-![](images/media/image7.png)
+![](/images/media/image7.png)
 
 (Depth-limited versions of Stockfish leading to low accuracy scores.
 Source: \[1\])
@@ -200,7 +200,7 @@ actually one engine, it is a family of nine different ones, each working
 exactly in the same way, but the neural network is trained on games
 between players of different rating ranges.
 
-![](images/media/image8.png)
+![](/images/media/image8.png)
 
 (MAIA's neural network in detail. Source: \[1\])
 
@@ -213,7 +213,7 @@ only focuses on amateur-level games (under 2000); (2) the authors only
 used a fixed depth MCTS (which becomes relevant when we talk about
 ALLIE).
 
-![](images/media/image9.png)
+![](/images/media/image9.png)
 
 (MCTS leading to lower accuracy than pure NN output. Source: \[1\])
 
@@ -234,7 +234,7 @@ there can be multiple different \"human\" moves, but only one is tested.
 As such, using only the accuracy metric is clearly not enough for
 evaluating our engine.
 
-![](images/media/image10.png)
+![](/images/media/image10.png)
 
 (Accuracy scores of all MAIA models. Source: \[1\])
 
@@ -251,7 +251,7 @@ which shows that the accuracy metric should be taken with a grain of salt. Of co
 higher the better, that is why we\'ll be taking a look at an even better
 engine next, but these results are already very good.
 
-![](images/media/image11.png)
+![](/images/media/image11.png)
 
 (Results of the Turing test. Source: Eisma, Yke Bauke, Robin Koerts, and
 Joost de Winter. \"Turing tests in chess: An experiment revealing the
@@ -290,7 +290,7 @@ trades), but often disregard other moves even after just seeing the
 immediate response of the opponent. As such, an uneven search tree is
 normal for a human brain.
 
-![](images/media/image12.png)
+![](/images/media/image12.png)
 
 (ALLIE's structure. Source: \[2\])
 
@@ -313,7 +313,7 @@ libraries, so splitting the input games into each of the moves and the
 time spent on each one is a simple automated process. Otherwise, one
 can imagine how impossibly tedious it would be.
 
-![](images/media/image13.png)
+![](/images/media/image13.png)
 
 (Example of a PGN file. Source: https://thechessworld.com/articles/general-information/portable-chess-game-notation-pgn-complete-guide/)
 
@@ -328,7 +328,7 @@ difference between a toned-down version of Stockfish and MAIA,
 although massive in the Turing test, was about 10-15% in accuracy
 score. What about ALLIE?
 
-![](images/media/image14.png)
+![](/images/media/image14.png)
 
 (Comparison of accuracy between ALLIE and MAIA models. Source: \[2\])
 
@@ -348,7 +348,7 @@ psychological boundaries (some people will intentionally say they played
 against an engine simply because they expect it, not because they can
 really identify engine-like moves).
 
-![](images/media/image15.png)
+![](/images/media/image15.png)
 
 (Turing test results on ALLIE. Source: \[2\])
 
