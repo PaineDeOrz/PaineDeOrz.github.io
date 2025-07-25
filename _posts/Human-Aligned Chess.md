@@ -32,6 +32,7 @@ deterministic, fully observable game with an insane amount of well
 organized data. For any AI enthusiast, this is Heaven!
 
 ![](images/media/image1.png)
+
 (A chess database. Source: https://www.pathtochessmastery.com/2015/01/chess-computing-resources-for-2015-part_10.html)
 
 Of course, the fact that chess is a great environment to develop
@@ -47,6 +48,7 @@ have computers that can easily defeat the best players even without a
 whole lot of processing power.
 
 ![](images/media/image2.png)
+
 (Kasparov vs. DeepBlue 1997. Source: https://ar.inspiredpencil.com/pictures-2023/garry-kasparov-vs-deep-blue)
 
 However, the world of chess isn\'t without its problems. Cheating, in
@@ -74,6 +76,7 @@ how to create a \"human-aligned engine\" that can predict not the best
 move in a position, but the most \"human\" one.
 
 ![](images/media/image3.png)
+
 (Example of "unnatural" move. Black to move, best move: a5, despite
 incoming attack on the king. Source: https://www.youtube.com/watch?v=NdV3_SwrNjs)
 
@@ -110,6 +113,7 @@ the neural network, crafted by ML experts at Google with the help of
 chess experts, but still, this method was very surprising at first.
 
 ![](images/media/image4.png)
+
 (Basic Structure of AlphaZero. Source: https://medium.com/applied-data-science/alphago-zero-explained-in-one-diagram-365f5abf67e0)
 
 There is still a limitation of using machine learning algorithms (based
@@ -125,6 +129,7 @@ and Karpov were among the ones who couldn't find the solution, only
 Mikhail Tal did.
 
 ![](images/media/image5.png)
+
 (Plaskett's puzzle. Leela evaluation: black is better. Stockfish depth
 30 (after 1 min 17s) says black is better. Stockfish depth 40 (18:06):
 white is winning.
