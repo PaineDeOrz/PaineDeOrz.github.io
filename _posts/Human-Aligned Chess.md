@@ -9,10 +9,13 @@ tags:
 ---
 
 Blog Post for Human-Aligned Chess
+=================================
 
 By Andrei Todiraș
+=================
 
 Introduction
+------------
 
 In the last few years, chess has absolutely boomed. It feels like it\'s
 everywhere right now, whether in the train, in the parc, even in the
@@ -20,8 +23,7 @@ lecture hall, there are people playing chess on their phones. The number
 of tournaments, movies, TV shows, learning material etc. has increased
 exponentially since the pandemic, even though this game has existed for
 centuries. There are over 10 million people logging in every day and
-playing an online game. This means an\
-enormous amount of games, being played by all types of people (be they
+playing an online game. This means an enormous amount of games, being played by all types of people (be they
 professionals, players who don\'t even know the rules, 5 year-olds, 95
 year-olds and everything in between) are recorded and stored in
 databases, along with all sorts of metadata (players\' ELO ratings,
@@ -29,12 +31,8 @@ nationality, time format etc.). To put it in short: a simple,
 deterministic, fully observable game with an insane amount of well
 organized data. For any AI enthusiast, this is Heaven!
 
-![A chess database. Source:](images/media/image1.png){width="5.133333333333334in"
-height="4.1055544619422575in"}
-
-1 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
+![](images/media/image1.png)
+(A chess database. Source: https://www.pathtochessmastery.com/2015/01/chess-computing-resources-for-2015-part_10.html)
 
 Of course, the fact that chess is a great environment to develop
 algorithms has been known ever since computers were created. Alan Turing
@@ -48,10 +46,8 @@ moment, investing in chess engines increased exponentially, and today we
 have computers that can easily defeat the best players even without a
 whole lot of processing power.
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image2.png){width="3.116665573053368in"
-height="2.158333333333333in"}
-
-(Kasparov vs. DeepBlue 1997. Source:
+![](images/media/image2.png)
+(Kasparov vs. DeepBlue 1997. Source: https://ar.inspiredpencil.com/pictures-2023/garry-kasparov-vs-deep-blue)
 
 However, the world of chess isn\'t without its problems. Cheating, in
 particular, is probably the greatest one. Another one is the very
@@ -77,17 +73,12 @@ going to take the first step into answering in this blogpost, by seeing
 how to create a \"human-aligned engine\" that can predict not the best
 move in a position, but the most \"human\" one.
 
-2 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image3.png){width="3.9625in"
-height="3.9499989063867016in"}
-
+![](images/media/image3.png)
 (Example of "unnatural" move. Black to move, best move: a5, despite
-incoming attack on the king. Source:
+incoming attack on the king. Source: https://www.youtube.com/watch?v=NdV3_SwrNjs)
 
 Modern Chess Engines
+--------------------
 
 In order to understand how to create a \"human-aligned engine\", first
 we need to dive into the workings of a \"normal\" engine. Ever since the
@@ -109,13 +100,7 @@ best players in the world have started implementing in their own games,
 and sparked massive enthusiasm in the tech community. Why? Conceptually,
 chess is a great AI application, due to its simple nature.
 Clearly-established algorithms such as alpha-beta pruning are,
-intuitively, the
-
-3 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
-way is should be solved (if chess could ever be solved). It is hard to
+intuitively, the way is should be solved (if chess could ever be solved). It is hard to
 understand why a machine learning model (a neural network) would be any
 better. After all, we don't need a model that can generalize, we don't
 even need an engine that is extremely efficient. A chess engine outputs
@@ -124,22 +109,14 @@ course, the fantastic results of AlphaZero lie behind the complexity of
 the neural network, crafted by ML experts at Google with the help of
 chess experts, but still, this method was very surprising at first.
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image4.png){width="6.170832239720035in"
-height="5.554166666666666in"}
-
-(Basic Structure of AlphaZero. Source:
+![](images/media/image4.png)
+(Basic Structure of AlphaZero. Source: https://medium.com/applied-data-science/alphago-zero-explained-in-one-diagram-365f5abf67e0)
 
 There is still a limitation of using machine learning algorithms (based
 on lots of data rather than ground truths) instead of more simple AI
 ones. A famous example for it is Plaskett\'s puzzle, a study that puts
 white in a completely winning position, with forced checkmate in 14
-moves,
-
-4 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
-which LeeLa, a continuation of the AlphaZero concept, doesn\'t find. The
+moves, which LeeLa, a continuation of the AlphaZero concept, doesn\'t find. The
 seemingly more basic Stockfish (alpha-beta pruning with lots of
 hand-crafted heuristics), however, does find it, albeit after a very
 long time in the world of computers. The puzzle was presented to the
@@ -147,9 +124,7 @@ best players in the world at a tournament in Brussels in 1987. Kasparov
 and Karpov were among the ones who couldn't find the solution, only
 Mikhail Tal did.
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image5.png){width="3.0833333333333335in"
-height="3.0416666666666665in"}
-
+![](images/media/image5.png)
 (Plaskett's puzzle. Leela evaluation: black is better. Stockfish depth
 30 (after 1 min 17s) says black is better. Stockfish depth 40 (18:06):
 white is winning.
@@ -162,6 +137,7 @@ approach, which we are also going to use for our \"human-aligned\"
 engines, albeit for more obvious reasons.
 
 Human-Aligned Engines - a First Attempt
+---------------------------------------
 
 The first question one might have when talking about designing a
 human-level engine is as follows: If we already have Stockfish or Leela
@@ -171,20 +147,13 @@ they are just as weak as us? Well, here is where the concept of
 \"human\" moves comes into play. Humans, whether they are complete
 beginners, amateurs or advanced players, don\'t just play random bad
 moves. They play certain bad moves. There is always some thought process
-going
-
-5 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
-into a move, sometimes erroneous for hidden reasons, such as missing an
+going into a move, sometimes erroneous for hidden reasons, such as missing an
 insane tactic 10 moves into a variation, sometimes for obvious reasons,
 such as blundering a queen in one move. Some moves are extremely
 intuitive, what we call \"natural\", even though an engine may deem it a
 blunder.
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image6.png){width="4.35in"
-height="3.4180555555555556in"}
+![](images/media/image6.png)
 
 In order to understand a little bit more clearly what an \"unnatural\"
 move is, let\'s take an example. In the position above, the best player
@@ -202,17 +171,13 @@ Just toning down existing engines doesn\'t emulate human play, it just
 leads to either random bad moves or accidental best moves, so we have to
 come up with smarter methods.
 
-6 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image7.png){width="5.1402777777777775in"
-height="3.433333333333333in"}
+![](images/media/image7.png)
 
 (Depth-limited versions of Stockfish leading to low accuracy scores.
 Source: \[1\])
 
 MAIA
+-----
 
 MAIA, the first \"human-aligned\" engine, was created with a very simple
 idea in mind. Taking exactly the model of LeeLa, but instead of training
@@ -230,42 +195,29 @@ actually one engine, it is a family of nine different ones, each working
 exactly in the same way, but the neural network is trained on games
 between players of different rating ranges.
 
-7 Andrei Todiraș 31.07.2025
+![](images/media/image8.png)
 
-> https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
+(MAIA's neural network in detail. Source: \[1\])
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image8.png){width="8.068055555555556in"
-height="2.6041666666666665in"}
+The rather unintuitive change that MAIA brings, however, is a lack of
+a MCTS following the training of the neural network. This is a purely
+ad-hoc finding. As the following graph portrays, the results are
+simply a bit better when the neural network alone predicts the move.
+This is quite surprising. There are two main reasons for it: (1) MAIA
+only focuses on amateur-level games (under 2000); (2) the authors only
+used a fixed depth MCTS (which becomes relevant when we talk about
+ALLIE).
 
-> (MAIA's neural network in detail. Source: \[1\])
->
-> The rather unintuitive change that MAIA brings, however, is a lack of
-> a MCTS following the training of the neural network. This is a purely
-> ad-hoc finding. As the following graph portrays, the results are
-> simply a bit better when the neural network alone predicts the move.
-> This is quite surprising. There are two main reasons for it: (1) MAIA
-> only focuses on amateur-level games (under 2000); (2) the authors only
-> used a fixed depth MCTS (which becomes relevant when we talk about
-> ALLIE).
->
-> ![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image9.png){width="4.512498906386702in"
-> height="2.6124989063867017in"}
->
-> (MCTS leading to lower accuracy than pure NN output. Source: \[1\])
->
-> Apart from this peculiarity, there is not much else to say about
-> MAIA\'s implementation. Much more interesting, however, are the
-> results. We can see an accuracy a little over 50%, which intuitively
-> sounds quite poor, but let\'s analyze what this accuracy actually
-> means. Normally in chess, when we talk about accuracy, we compare
-> human play against the engine. Thus, 100%
->
-> 8 Andrei Todiraș 31.07.2025
+![](images/media/image9.png)
 
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
+(MCTS leading to lower accuracy than pure NN output. Source: \[1\])
 
-accuracy means playing all the best moves recommended by the computer,
-and any other moves at any point decrease that accuracy, some by a lot
+Apart from this peculiarity, there is not much else to say about
+MAIA\'s implementation. Much more interesting, however, are the
+results. We can see an accuracy a little over 50%, which intuitively
+sounds quite poor, but let\'s analyze what this accuracy actually
+means. Normally in chess, when we talk about accuracy, we compare
+human play against the engine. Thus, 100% accuracy means playing all the best moves recommended by the computer, and any other moves at any point decrease that accuracy, some by a lot
 (blunders), other by a little (slight mistakes or just alternatives to
 the best moves). In our case here, it is a little bit differently.
 Because we don\'t actually measure how \"human\" each move is, we cannot
@@ -277,8 +229,7 @@ there can be multiple different \"human\" moves, but only one is tested.
 As such, using only the accuracy metric is clearly not enough for
 evaluating our engine.
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image10.png){width="5.8125in"
-height="3.8986111111111112in"}
+![](images/media/image10.png)
 
 (Accuracy scores of all MAIA models. Source: \[1\])
 
@@ -291,18 +242,11 @@ were paired against other humans, MAIA, and a toned-down version of
 Stockfish, then asked to rate their confidence in whether their opponent
 was human or not. While Stockfish was clearly recognized, MAIA wasn't.
 The difference between playing a human opponent and MAIA is very small,
-which shows that the
-
-9 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
-accuracy metric should be taken with a grain of salt. Of course, the
+which shows that the accuracy metric should be taken with a grain of salt. Of course, the
 higher the better, that is why we\'ll be taking a look at an even better
 engine next, but these results are already very good.
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image11.png){width="6.5in"
-height="3.198611111111111in"}
+![](images/media/image11.png)
 
 (Results of the Turing test. Source: Eisma, Yke Bauke, Robin Koerts, and
 Joost de Winter. \"Turing tests in chess: An experiment revealing the
@@ -310,6 +254,7 @@ role of human subjectivity.\" *Computers in Human Behavior Reports* 16
 (2024): 100496)
 
 ALLIE
+-------
 
 The authors of ALLIE change their approach in accomplishing the same
 task and they come up with a model that is quite a lot more complex.
@@ -330,72 +275,57 @@ the MCTS is restricted not in depth, but in time. The MCTS runs for only
 as long as the predicted pondering time allows, albeit as deep as it
 wants to.
 
-10 Andrei Todiraș 31.07.2025
+In a way, this is also a more intuitive approach. When we think of how
+humans analyze a position, what was calculated on the previous moves
+matters a lot (humans think in sequences of moves, not analyzing a
+position the same way every single move), and when humans calculate
+future sequences, they go very deep (up to 15-20 moves) in forcing
+variations (attacks on the enemy king, forced checkmates or lots of
+trades), but often disregard other moves even after just seeing the
+immediate response of the opponent. As such, an uneven search tree is
+normal for a human brain.
 
-> https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
->
-> In a way, this is also a more intuitive approach. When we think of how
-> humans analyze a position, what was calculated on the previous moves
-> matters a lot (humans think in sequences of moves, not analyzing a
-> position the same way every single move), and when humans calculate
-> future sequences, they go very deep (up to 15-20 moves) in forcing
-> variations (attacks on the enemy king, forced checkmates or lots of
-> trades), but often disregard other moves even after just seeing the
-> immediate response of the opponent. As such, an uneven search tree is
-> normal for a human brain.
+![](images/media/image12.png)
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image12.png){width="8.4375in"
-height="2.102777777777778in"}
+(ALLIE's structure. Source: \[2\])
 
-> (ALLIE's structure. Source: \[2\])
->
-> Because we are using the whole metadata of a game instead of just a
-> given position, we can now change the way we use the neural network as
-> well. Instead of a very complex feed-forward neural network, the
-> authors of ALLIE used a GPT 2.5 - style recurrent neural network. The
-> point is that we can think of a game of chess as a sentence. We make
-> the next move depending on the moves we have played before (based on
-> calculations that we have made before), just like modern LLMs predict
-> the next word in a sentence based on all the words written before. The
-> same applies to the pondering time. If in a rapid game, we spent 5
-> minutes thinking on a move, we are not going to spend another 5
-> minutes on the next one.
->
-> All this is helped massively by the way in which chess games are
-> stored, that is PGNs. These are very nicely formatted text files that
-> are automatically readable through the use of already-existing
-> libraries, so splitting the input games into each of the moves and the
-> time spent on each one is a simple automated process. Otherwise, one
-> can imagine how impossibly tedious it would be.
->
-> 11 Andrei Todiraș 31.07.2025
->
-> https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
->
-> ![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image13.png){width="6.5in"
-> height="2.613888888888889in"}
->
-> (Example of a PGN file. Source:
->
-> But if MAIA already had great results in the Turing test, how much
-> better can ALLIE really be, given that it uses truly state-of-the-art
-> methods in AI and ML? Well, the accuracy score, while not particularly
-> relevant in absolute terms, is still a great comparison between the
-> two engines.
->
-> After all, the higher the accuracy, the better. Remember that the
-> difference between a toned-down version of Stockfish and MAIA,
-> although massive in the Turing test, was about 10-15% in accuracy
-> score. What about ALLIE?
+Because we are using the whole metadata of a game instead of just a
+given position, we can now change the way we use the neural network as
+well. Instead of a very complex feed-forward neural network, the
+authors of ALLIE used a GPT 2.5 - style recurrent neural network. The
+point is that we can think of a game of chess as a sentence. We make
+the next move depending on the moves we have played before (based on
+calculations that we have made before), just like modern LLMs predict
+the next word in a sentence based on all the words written before. The
+same applies to the pondering time. If in a rapid game, we spent 5
+minutes thinking on a move, we are not going to spend another 5
+minutes on the next one.
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image14.png){width="7.252777777777778in"
-height="3.7in"}
+All this is helped massively by the way in which chess games are
+stored, that is PGNs. These are very nicely formatted text files that
+are automatically readable through the use of already-existing
+libraries, so splitting the input games into each of the moves and the
+time spent on each one is a simple automated process. Otherwise, one
+can imagine how impossibly tedious it would be.
 
-> (Comparison of accuracy between ALLIE and MAIA models. Source: \[2\])
->
-> 12 Andrei Todiraș 31.07.2025
+![](images/media/image13.png)
 
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
+(Example of a PGN file. Source: https://thechessworld.com/articles/general-information/portable-chess-game-notation-pgn-complete-guide/)
+
+But if MAIA already had great results in the Turing test, how much
+better can ALLIE really be, given that it uses truly state-of-the-art
+methods in AI and ML? Well, the accuracy score, while not particularly
+relevant in absolute terms, is still a great comparison between the
+two engines.
+
+After all, the higher the accuracy, the better. Remember that the
+difference between a toned-down version of Stockfish and MAIA,
+although massive in the Turing test, was about 10-15% in accuracy
+score. What about ALLIE?
+
+![](images/media/image14.png)
+
+(Comparison of accuracy between ALLIE and MAIA models. Source: \[2\])
 
 Well, at the amateur levels (where the authors of MAIA particularly
 focused), the difference is not particularly significant (under 5%).
@@ -413,8 +343,7 @@ psychological boundaries (some people will intentionally say they played
 against an engine simply because they expect it, not because they can
 really identify engine-like moves).
 
-![](vertopal_ae05a892d2db4870af100574f28f54b0/media/image15.png){width="6.131944444444445in"
-height="2.4277766841644794in"}
+![](images/media/image15.png)
 
 (Turing test results on ALLIE. Source: \[2\])
 
@@ -434,13 +363,7 @@ the model to generalize well. From a chess player\'s perspective,
 however, I can also understand it. As humans, we learn endgames
 separately, as though they are their own games and not continuations of
 a long game. We learn techniques, abstract concepts and positions that
-we
-
-13 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
-need to reach in order to force a win or a draw, concepts which a
+we need to reach in order to force a win or a draw, concepts which a
 machine learning model doesn\'t have as input. Also the training data is
 extremely faulty, particularly in endgames. Since we are only using
 rapid and blitz games, most games that reach the endgame are probably
@@ -449,6 +372,7 @@ rather than pure endgame technique. So one can understand why the model
 performs worse in endgames.
 
 Issues with the models
+----------------------
 
 This last issue discussed on ALLIE reveals a greater problem not just
 behind the two models I have presented today, but on any model any
@@ -463,6 +387,7 @@ at lower rating levels. And as we have seen, we do need a lot of games
 (tens of millions).
 
 Future Possibilities
+--------------------
 
 The engines presented today are, fundamentally, an interesting though
 rudimentary approach of emulating human behavior. Despite the methods
@@ -487,10 +412,6 @@ just one, and compare them to a Stockfish evaluation to output a good
 exactly the application we have discussed in the beginning of the
 article, the personalized chess trainer.
 
-14 Andrei Todiraș 31.07.2025
-
-https://painedeorz.github.io/posts/2025/05/Human-Aligned-Chess/
-
 Regarding the prospect of using these engines for anti-cheating
 purposes, this seems quite difficult. Inherently, the presented engines
 don't tackle the question of whether a move is human or not, or try to
@@ -503,6 +424,7 @@ accuracy, typical time consumption or style of play in past games), may
 lead to an improvement over current systems.
 
 Conclusion
+----------
 
 "Human-alignment" is a recently growing topic in the AI community, with
 loads of prospects and future possibilities. Just like widely used AI
@@ -526,6 +448,7 @@ popularity, and it is small steps like these specific applications that
 lead to a more general answer to the problem.
 
 Sources
+--------
 
 \[1\] McIlroy-Young, Reid, et al. \"Aligning superhuman ai with human
 behavior: Chess as a model system.\" *Proceedings of the 26th ACM SIGKDD
@@ -533,5 +456,3 @@ International Conference on Knowledge Discovery & Data Mining*. 2020
 
 \[2\] Zhang, Yiming, et al. \"Human-aligned chess with a bit of
 search.\" *arXiv preprint arXiv:2410.03893* (2024).
-
-15 Andrei Todiraș 31.07.2025
